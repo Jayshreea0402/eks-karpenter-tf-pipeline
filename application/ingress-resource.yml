@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: java-app-ingress
+  #annotations:
+  # nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: aaed4b8c2f3d34b5d9e903723a37b18d-1084199349.ap-south-1.elb.amazonaws.com
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: java-app-service
+              port:
+                number: 80  # Adjust the port if needed
