@@ -20,8 +20,10 @@ phases:
          - echo "terraform installed successfully..."
   build: 
     commands: 
-         - terraform init -chdir=infra/
-         - terraform plan -chdir=infra/
+        - git clone https://github.com/Jayshreea0402/eks-karpenter-tf-pipeline.git
+        - cd eks-karpenter-tf-pipeline
+        - terraform init -chdir=infra/
+        - terraform plan -chdir=infra/
          #- terraform apply infra/
 #   pre_build:
 #     commands:
