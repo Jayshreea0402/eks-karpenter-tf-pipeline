@@ -1,0 +1,67 @@
+version: 0.2
+env:
+  variables:
+    AWS_REGION: ap-south-1
+
+  secret-manager:
+    DOCKERHUB_TOKEN: java-cicd-pmg:token
+    DOCKERHUB_USER: java-cicd-pmg:user
+    AWS_ACCOUNT: account-id-sso:AWS_ACCOUNT_ID
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+    commands:
+         - wget -O terraform.zip https://releases.hashicorp.com/terraform/1.6.0/terraform_1.6.0_linux_amd64.zip
+         - unzip terraform.zip
+         - mv terraform /usr/local/bin/
+         - terraform --version
+         - echo "terraform installed successfully..."
+  build: 
+    commands: 
+         - terraform init 
+         - terraform plan 
+         #- terraform apply 
+#   pre_build:
+#     commands:
+#       - echo "Logging in to Amazon ECR..."
+#       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 252007810724.dkr.ecr.ap-south-1.amazonaws.com
+#       - ECR_MAIN_URI="252007810724.dkr.ecr.ap-south-1.amazonaws.com"
+#       - ECR_IMAGE_URI="${ECR_MAIN_URI}/${ECR_REPO_NAME}:latest"
+#       - echo "Login successfull..."
+#       - echo "creating a ecr repo"
+#       - aws cloudformation deploy --template-file ecr.yaml --stack-name repo-ecr --region ap-south-1 --no-fail-on-empty-changeset --disable-rollback
+#       #- aws cloudformation wait stack-create-complete --stack-name ecrstack
+#       - echo "ecr repo created successfully..."
+#   build:
+#     commands: 
+#       - echo "creating eks cluster ..."
+#       - terraform init
+#       - terraform apply -auto-approve
+#       - echo "setting the eks context aws-auth configmap..."
+#       - kubectl config get-contexts
+#       - echo "Updating aws-auth ConfigMap for EKS cluster"
+#       - aws eks update-kubeconfig --name pmg-cluster0066 --region ap-south-1
+#       - kubectl apply -f aws-auth-configmap.yaml 
+#       - echo "eks authentication configmap set successfully... "
+#       - echo "building docker image..."
+#       - docker build -t ecr-repo-image .
+#       - docker tag ecr-repo-image:latest 252007810724.dkr.ecr.ap-south-1.amazonaws.com/ecr-repo-image:latest
+#       - echo "pushing image to ECR"
+#       - docker push 252007810724.dkr.ecr.ap-south-1.amazonaws.com/ecr-repo-image:latest
+#       - echo "successfully pushed image... check ECR repo"
+      
+#   post_build:
+#     commands:
+#       - echo '[{"name":"ecr-repo-image","imageUri":"%s"}]' ${ECR_IMAGE_URI} > imagedefinitions.json
+#       - echo "artifacts uploading done..."
+#       - kubectl apply -f $CODEBUILD_SRC_DIR/deployment.yaml
+#       - kubectl get nodes
+#       - kubectl get deployments -n motadata
+#       - kubectl get ns 
+#       - kubectl describe service java-app-service -n motadata
+#       - kubectl get svc -n motadata
+# artifacts:
+#   files:
+#     - imagedefinitions.json
