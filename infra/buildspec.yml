@@ -20,8 +20,8 @@ phases:
          - echo "terraform installed successfully..."
   build: 
     commands: 
-         - terraform init 
-         - terraform plan 
+         - terraform init -chdir=/infra/
+         - terraform plan -chdir=/infra/
          #- terraform apply 
 #   pre_build:
 #     commands:
