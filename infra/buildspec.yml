@@ -21,7 +21,7 @@ phases:
   build: 
     commands: 
         - git clone https://github.com/Jayshreea0402/eks-karpenter-tf-pipeline.git
-        - cd eks-karpenter-tf-pipeline
+        - cd eks-karpenter-tf-pipeline/infra/
         - terraform init #-chdir=infra/
         - terraform plan #-chdir=infra/
          #- terraform apply infra/
