@@ -20,9 +20,9 @@ phases:
          - echo "terraform installed successfully..."
   build: 
     commands: 
-         - terraform init -chdir=/infra/
-         - terraform plan -chdir=/infra/
-         #- terraform apply 
+         - terraform init -chdir=infra/
+         - terraform plan -chdir=infra/
+         #- terraform apply infra/
 #   pre_build:
 #     commands:
 #       - echo "Logging in to Amazon ECR..."
